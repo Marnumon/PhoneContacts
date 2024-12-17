@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:context=".activity.UpdateActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/update_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="手机通讯录"
+        app:titleTextColor="#6A6A6A"
+        app:navigationIcon="@drawable/back" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/update_toolbar">
+        <EditText
+            android:id="@+id/update_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="9dp"
+            android:hint="修改姓名"
+            android:layout_marginBottom="40dp" />
+        <EditText
+            android:id="@+id/update_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="9dp"
+            android:hint="修改电话"
+            android:layout_marginBottom="40dp" />
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/update_male"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="男" />
+            <RadioButton
+                android:id="@+id/update_female"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="女" />
+        </RadioGroup>
+        <EditText
+            android:id="@+id/update_remark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="9dp"
+            android:hint="修改备注"
+            android:layout_marginBottom="40dp" />
+        <Button
+            android:id="@+id/update_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提交修改" />
+    </LinearLayout>
+</RelativeLayout>
