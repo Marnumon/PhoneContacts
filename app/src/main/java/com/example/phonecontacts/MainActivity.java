@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -24,6 +25,16 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchEditText;
     private ListView listView;
 
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        try (DBUntil dbUntil = new DBUntil(MainActivity.this)) {
+//            DBUntil.db = dbUntil.getWritableDatabase();
+//        } catch (Exception e) {
+//            Log.e("MainActivity", "Failed to initialize DBUntil", e);
+//        }
+//    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,36 +44,21 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = this.findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
 
+
+
         DBUntil dbUntil = new DBUntil(MainActivity.this);
         DBUntil.db = dbUntil.getWritableDatabase();
 
         listView = findViewById(R.id.book_list);
-        List<PeoBean> result = PeoDao.getAllPeo();
-        if (result.isEmpty()) {
-            listView.setAdapter(null);
-        } else {
-            result.sort((o1, o2) -> {
-                if (o1.getBeginZ().equals("#") || o2.getBeginZ().equals("#")) {
-                    return 1;
-                } else {
-                    return o1.getBeginZ().compareTo(o2.getBeginZ());
-                }
-            });
-            PeoAdapter peoAdapter = new PeoAdapter(MainActivity.this, result);
-            listView.setAdapter(peoAdapter);
-        }
-
+        searchEditText = findViewById(R.id.search_id);
         FloatingActionButton floatingActionButton = findViewById(R.id.add);
+        updateListView();
+
         floatingActionButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, CreateActivity.class);
             startActivity(intent);
         });
 
-        searchEditText = findViewById(R.id.search_id);
-        searchEditText.setOnTouchListener((v, event) -> {
-            updateListView();
-            return false;
-        });
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -82,21 +78,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateListView() {
-        listView.setAdapter(null);
-        String title = searchEditText.getText().toString();
-        List<PeoBean> searchResult;
-        if (title.isEmpty()) {
-            searchResult = PeoDao.getAllPeo();
+        String searchText = searchEditText.getText().toString();
+        List<PeoBean> searchResult = searchText.isEmpty() ? PeoDao.getAllPeo() : PeoDao.getAllPeo(searchText);
+        if (searchResult.isEmpty()) {
+            listView.setAdapter(null);
+            return;
         } else {
-            searchResult = PeoDao.getAllPeo(title);
+            searchResult.sort((o1, o2) -> {
+                if (o1.getBeginZ().equals("#") || o2.getBeginZ().equals("#")) {
+                    return 1;
+                } else {
+                    return o1.getBeginZ().compareTo(o2.getBeginZ());
+                }
+            });
         }
-        searchResult.sort((o1, o2) -> {
-            if (o1.getBeginZ().equals("#") || o2.getBeginZ().equals("#")) {
-                return 1;
-            } else {
-                return o1.getBeginZ().compareTo(o2.getBeginZ());
-            }
-        });
         PeoAdapter peoAdapter = new PeoAdapter(MainActivity.this, searchResult);
         listView.setAdapter(peoAdapter);
     }

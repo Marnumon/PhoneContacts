@@ -52,13 +52,10 @@ public class PeoAdapter extends ArrayAdapter<PeoBean> {
                 letter.setHeight(0);
             }
         }
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), DetailsActivity.class);
-                intent.putExtra("id", peo.getId());
-                getContext().startActivity(intent);
-            }
+        convertView.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), DetailsActivity.class);
+            intent.putExtra("id", peo.getId());
+            getContext().startActivity(intent);
         });
         return convertView;
     }

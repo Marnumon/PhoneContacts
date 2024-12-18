@@ -1,5 +1,7 @@
 package com.example.phonecontacts.bean;
 
+import androidx.annotation.NonNull;
+
 public class PeoBean {
     private String id;
     private String name;
@@ -8,6 +10,7 @@ public class PeoBean {
     private String remark;
     private String beginZ;
 
+    @NonNull
     @Override
     public String toString() {
         return "PeoBean{" +

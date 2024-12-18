@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBUntil extends SQLiteOpenHelper {
     private static final String DB_NAME = "db.addBook.db";
     private static final int VERSION = 5;
-    public static SQLiteDatabase db = null;
+    public static SQLiteDatabase db;
 
     public DBUntil(Context context) {
         super(context, DB_NAME, null, VERSION);

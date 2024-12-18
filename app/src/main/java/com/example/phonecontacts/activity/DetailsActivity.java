@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,57 +28,42 @@ public class DetailsActivity extends AppCompatActivity {
         String id = getIntent().getStringExtra("id");
         TextView phoneNumber = findViewById(R.id.details_phone);
         Button call = findViewById(R.id.details_phone_button);
-        call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int permissionCode = ContextCompat.checkSelfPermission(DetailsActivity.this, Manifest.permission.CALL_PHONE);
-                if (permissionCode == PackageManager.PERMISSION_GRANTED) {
-                    makePhoneCall(phoneNumber.getText().toString().trim());
-                } else {
-                    ActivityCompat.requestPermissions(DetailsActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
-                }
+        call.setOnClickListener(v -> {
+            int permissionCode = ContextCompat.checkSelfPermission(DetailsActivity.this, Manifest.permission.CALL_PHONE);
+            if (permissionCode == PackageManager.PERMISSION_GRANTED) {
+                makePhoneCall(phoneNumber.getText().toString().trim());
+            } else {
+                ActivityCompat.requestPermissions(DetailsActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 1);
             }
         });
 
         Button text = findViewById(R.id.details_message_button);
-        text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                Uri uri = Uri.parse("smsto:" + Uri.encode(phoneNumber.getText().toString().trim()));
-                intent.setData(uri);
-                startActivity(intent);
-            }
+        text.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_SENDTO);
+            Uri uri = Uri.parse("smsto:" + Uri.encode(phoneNumber.getText().toString().trim()));
+            intent.setData(uri);
+            startActivity(intent);
         });
 
         Button back = findViewById(R.id.details_back_button);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
+            startActivity(intent);
         });
 
         Button delete = findViewById(R.id.details_delete_button);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PeoDao.deletePeo(id);
-                Toast.makeText(DetailsActivity.this, "数据已删除", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
+        delete.setOnClickListener(v -> {
+            PeoDao.deletePeo(id);
+            Toast.makeText(DetailsActivity.this, "数据已删除", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
+            startActivity(intent);
         });
 
         Button edit = findViewById(R.id.details_edit_button);
-        edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetailsActivity.this, UpdateActivity.class);
-                intent.putExtra("id", id);
-                startActivity(intent);
-            }
+        edit.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailsActivity.this, UpdateActivity.class);
+            intent.putExtra("id", id);
+            startActivity(intent);
         });
 
         PeoBean peo = PeoDao.getOnePeo(id);
