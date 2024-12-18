@@ -25,33 +25,29 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchEditText;
     private ListView listView;
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        try (DBUntil dbUntil = new DBUntil(MainActivity.this)) {
-//            DBUntil.db = dbUntil.getWritableDatabase();
-//        } catch (Exception e) {
-//            Log.e("MainActivity", "Failed to initialize DBUntil", e);
-//        }
-//    }
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = this.findViewById(R.id.toolbar);
-        this.setSupportActionBar(toolbar);
-
-
+//        try (DBUntil dbUntil = new DBUntil(MainActivity.this)) {
+//            DBUntil.db = dbUntil.getWritableDatabase();
+//        } catch (Exception e) {
+//            Log.e("MainActivity", "Failed to initialize DBUntil", e);
+//        }
 
         DBUntil dbUntil = new DBUntil(MainActivity.this);
         DBUntil.db = dbUntil.getWritableDatabase();
 
+
+
         listView = findViewById(R.id.book_list);
         searchEditText = findViewById(R.id.search_id);
         FloatingActionButton floatingActionButton = findViewById(R.id.add);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
         updateListView();
 
         floatingActionButton.setOnClickListener(v -> {
@@ -62,12 +58,10 @@ public class MainActivity extends AppCompatActivity {
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -94,5 +88,12 @@ public class MainActivity extends AppCompatActivity {
         }
         PeoAdapter peoAdapter = new PeoAdapter(MainActivity.this, searchResult);
         listView.setAdapter(peoAdapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 如果DBUntil.db需要关闭，确保在这里关闭
+        DBUntil.db.close();
     }
 }
