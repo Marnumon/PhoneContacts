@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -25,7 +26,6 @@ public class DetailsActivity extends AppCompatActivity {
     private TextView phoneView;
     private Button callButton;
     private Button textButton;
-    private Button backButton;
     private Button deleteButton;
     private Button editButton;
 
@@ -36,6 +36,8 @@ public class DetailsActivity extends AppCompatActivity {
         id = getIntent().getStringExtra("id");
         // 初始化用户界面元素
         initUI();
+        // 设置Toolbar
+        setupToolbar();
         // 设置按钮点击事件
         setupButtonClickListeners();
         // 设置数据显示到用户界面
@@ -48,9 +50,15 @@ public class DetailsActivity extends AppCompatActivity {
         // 通过findViewById获取界面上的按钮，并初始化
         callButton = findViewById(R.id.details_phone_button);
         textButton = findViewById(R.id.details_message_button);
-        backButton = findViewById(R.id.details_back_button);
         deleteButton = findViewById(R.id.details_delete_button);
         editButton = findViewById(R.id.details_edit_button);
+    }
+
+    // setupToolbar方法用于设置Toolbar和返回按钮的点击事件
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.details_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> backToMainActivity());
     }
 
     private void setupButtonClickListeners() {
@@ -72,18 +80,11 @@ public class DetailsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // 设置返回按钮的点击事件
-        backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
-
         // 设置删除联系人按钮的点击事件
         deleteButton.setOnClickListener(v -> {
             PeoDao.deletePeo(id);
-            Toast.makeText(DetailsActivity.this, "数据已删除", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
-            startActivity(intent);
+            Toast.makeText(DetailsActivity.this, "联系人已删除", Toast.LENGTH_SHORT).show();
+            backToMainActivity();
         });
 
         // 设置编辑联系人按钮的点击事件
@@ -100,18 +101,16 @@ public class DetailsActivity extends AppCompatActivity {
         // 获取显示头像的ImageView，并根据性别设置不同的图片资源
         ImageView avatar = findViewById(R.id.details_avatar);
         if (peo.getSex().equals("男")) {
-            avatar.setImageResource(R.drawable.peo_male);
+            avatar.setImageResource(R.drawable.male);
         } else {
-            avatar.setImageResource(R.drawable.peo_female);
+            avatar.setImageResource(R.drawable.female);
         }
         // 获取界面上的TextView，并设置联系人的姓名、性别和备注
         TextView nameView = findViewById(R.id.details_name);
         TextView phoneView = findViewById(R.id.details_phone);
-        TextView sexView = findViewById(R.id.details_sex);
         TextView remarkView = findViewById(R.id.details_remark);
         nameView.setText(peo.getName());
         phoneView.setText(peo.getPhone());
-        sexView.setText(peo.getSex());
         remarkView.setText(peo.getRemark());
     }
 
@@ -120,5 +119,11 @@ public class DetailsActivity extends AppCompatActivity {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:" + phoneNumber));
         startActivity(callIntent);
+    }
+
+    // backToMainActivity方法用于返回主页
+    private void backToMainActivity() {
+        Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
