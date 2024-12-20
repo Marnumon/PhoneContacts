@@ -1,11 +1,9 @@
 package com.example.phonecontacts;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -16,7 +14,6 @@ import com.example.phonecontacts.activity.CreateActivity;
 import com.example.phonecontacts.adapter.PeoAdapter;
 import com.example.phonecontacts.bean.PeoBean;
 import com.example.phonecontacts.dao.PeoDao;
-import com.example.phonecontacts.until.DBUntil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -25,35 +22,19 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchEditText;
     private ListView listView;
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        try (DBUntil dbUntil = new DBUntil(MainActivity.this)) {
-//            DBUntil.db = dbUntil.getWritableDatabase();
-//        } catch (Exception e) {
-//            Log.e("MainActivity", "Failed to initialize DBUntil", e);
-//        }
-
-        DBUntil dbUntil = new DBUntil(MainActivity.this);
-        DBUntil.db = dbUntil.getWritableDatabase();
-
-
-
-        listView = findViewById(R.id.book_list);
+        PeoDao.setDbHelper(this);
         searchEditText = findViewById(R.id.search_id);
+        listView = findViewById(R.id.book_list);
         FloatingActionButton floatingActionButton = findViewById(R.id.add);
         Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         updateListView();
-
-        floatingActionButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, CreateActivity.class);
-            startActivity(intent);
-        });
 
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -68,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 updateListView();
             }
+        });
+
+        floatingActionButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CreateActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -88,12 +74,5 @@ public class MainActivity extends AppCompatActivity {
         }
         PeoAdapter peoAdapter = new PeoAdapter(MainActivity.this, searchResult);
         listView.setAdapter(peoAdapter);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // 如果DBUntil.db需要关闭，确保在这里关闭
-        DBUntil.db.close();
     }
 }

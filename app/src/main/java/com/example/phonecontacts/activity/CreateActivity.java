@@ -48,7 +48,10 @@ public class CreateActivity extends AppCompatActivity {
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.create_toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> backToMainActivity());
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(CreateActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
     }
 
     // setupCommitButton方法用于设置提交按钮的点击事件
@@ -74,14 +77,9 @@ public class CreateActivity extends AppCompatActivity {
                 // 调用PeoDao的createPeo方法创建新的联系人
                 PeoDao.createPeo(name, phone, sex, remark);
                 Toast.makeText(CreateActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
-                backToMainActivity();
+                Intent intent = new Intent(CreateActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
-    }
-
-    // backToMainActivity方法用于返回主页
-    private void backToMainActivity() {
-        Intent intent = new Intent(CreateActivity.this, MainActivity.class);
-        startActivity(intent);
     }
 }

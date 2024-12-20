@@ -58,7 +58,10 @@ public class DetailsActivity extends AppCompatActivity {
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.details_toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> backToMainActivity());
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void setupButtonClickListeners() {
@@ -84,7 +87,8 @@ public class DetailsActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(v -> {
             PeoDao.deletePeo(id);
             Toast.makeText(DetailsActivity.this, "联系人已删除", Toast.LENGTH_SHORT).show();
-            backToMainActivity();
+            Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
+            startActivity(intent);
         });
 
         // 设置编辑联系人按钮的点击事件
@@ -119,11 +123,5 @@ public class DetailsActivity extends AppCompatActivity {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:" + phoneNumber));
         startActivity(callIntent);
-    }
-
-    // backToMainActivity方法用于返回主页
-    private void backToMainActivity() {
-        Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
-        startActivity(intent);
     }
 }

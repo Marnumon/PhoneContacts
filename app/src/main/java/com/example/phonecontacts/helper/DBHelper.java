@@ -1,19 +1,19 @@
-package com.example.phonecontacts.until;
+package com.example.phonecontacts.helper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DBUntil extends SQLiteOpenHelper implements AutoCloseable {
+public class DBHelper extends SQLiteOpenHelper {
     // 定义数据库的名称
     private static final String DB_NAME = "db.addBook.db";
     // 定义数据库的版本号
     private static final int VERSION = 5;
     // 定义一个静态的SQLiteDatabase对象，用于操作数据库
-    public static SQLiteDatabase db;
+//    public static SQLiteDatabase db;
 
     // DBUntil类的构造函数，接收一个Context对象作为参数，并调用父类的构造函数初始化数据库
-    public DBUntil(Context context) {
+    public DBHelper(Context context) {
         super(context, DB_NAME, null, VERSION);
     }
 
@@ -44,13 +44,5 @@ public class DBUntil extends SQLiteOpenHelper implements AutoCloseable {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         // 当数据库需要升级时，调用onCreate方法重新创建数据库和表，这会删除旧数据
         onCreate(sqLiteDatabase);
-    }
-
-    // 实现AutoCloseable接口的close方法，用于关闭数据库连接
-    @Override
-    public void close() {
-        if (db != null && db.isOpen()) {
-            db.close();
-        }
     }
 }

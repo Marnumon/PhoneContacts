@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
-        android:text=""
+        android:text="@string/name"
         android:textSize="32sp"
         android:textStyle="bold" />
 
@@ -54,9 +54,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
-        android:text=""
+        android:text="@string/phone"
         android:textSize="25sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:ignore="VisualLintOverlap" />
 
     <!-- 电话和短信按钮 -->
     <RelativeLayout
@@ -70,8 +71,8 @@
             android:id="@+id/details_phone_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/details_phone"
             android:foreground="?selectableItemBackground"
             tools:ignore="SpeakableTextPresentCheck" />
@@ -81,7 +82,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="100dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/details_message"
             android:foreground="?selectableItemBackground"
             tools:ignore="SpeakableTextPresentCheck" />
@@ -94,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
-        android:text=""
+        android:text="@string/remark"
         android:textSize="25sp"
         android:textStyle="bold" />
 

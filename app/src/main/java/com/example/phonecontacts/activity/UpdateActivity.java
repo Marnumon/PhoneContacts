@@ -53,7 +53,10 @@ public class UpdateActivity extends AppCompatActivity {
     private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.update_toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> backToMainActivity());
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(UpdateActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
     }
 
     // setupData方法用于将选中的联系人数据设置到视图
@@ -93,14 +96,9 @@ public class UpdateActivity extends AppCompatActivity {
                 // 调用PeoDao的updatePeo方法更新联系人信息
                 PeoDao.updatePeo(id, name, phone, sex, remark);
                 Toast.makeText(UpdateActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
-                backToMainActivity();
+                Intent intent = new Intent(UpdateActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
-    }
-
-    // backToMainActivity方法用于返回主页
-    private void backToMainActivity() {
-        Intent intent = new Intent(UpdateActivity.this, MainActivity.class);
-        startActivity(intent);
     }
 }
