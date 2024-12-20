@@ -1,3 +1,4 @@
+// CreateActivity类继承自AppCompatActivity，用于创建新的联系人信息
 package com.example.phonecontacts.activity;
 
 import android.content.Intent;
@@ -12,7 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.phonecontacts.MainActivity;
 import com.example.phonecontacts.R;
-import com.example.phonecontacts.dao.PeoDao;
+import com.example.phonecontacts.dao.ContactDAO;
 
 public class CreateActivity extends AppCompatActivity {
     // 定义视图组件的引用
@@ -26,12 +27,9 @@ public class CreateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
-        // 初始化用户界面
-        initUI();
-        // 设置Toolbar
-        setupToolbar();
-        // 设置提交按钮的点击事件
-        setupCommitButton();
+        initUI(); // 初始化视图组件
+        setupToolbar(); // 设置Toolbar
+        setupCommitButton(); // 设置提交按钮的点击事件
     }
 
     // initUI方法用于初始化视图组件
@@ -61,6 +59,7 @@ public class CreateActivity extends AppCompatActivity {
             String name = nameView.getText().toString().trim();
             String phone = phoneView.getText().toString().trim();
             String remark = remarkView.getText().toString().trim();
+
             // 验证输入是否为空
             if (name.isEmpty()) {
                 Toast.makeText(CreateActivity.this, "请输入姓名", Toast.LENGTH_SHORT).show();
@@ -74,9 +73,11 @@ public class CreateActivity extends AppCompatActivity {
                 if (femaleButton.isChecked()) {
                     sex = "女";
                 }
-                // 调用PeoDao的createPeo方法创建新的联系人
-                PeoDao.createPeo(name, phone, sex, remark);
+
+                // 调用ContactDAO的createContact方法创建新的联系人
+                ContactDAO.createContact(name, phone, sex, remark);
                 Toast.makeText(CreateActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                // 添加成功后跳转到MainActivity
                 Intent intent = new Intent(CreateActivity.this, MainActivity.class);
                 startActivity(intent);
             }

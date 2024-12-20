@@ -1,3 +1,4 @@
+// UpdateActivity类继承自AppCompatActivity，用于更新联系人信息
 package com.example.phonecontacts.activity;
 
 import android.content.Intent;
@@ -12,8 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.phonecontacts.MainActivity;
 import com.example.phonecontacts.R;
-import com.example.phonecontacts.bean.PeoBean;
-import com.example.phonecontacts.dao.PeoDao;
+import com.example.phonecontacts.contact.Contact;
+import com.example.phonecontacts.dao.ContactDAO;
 
 public class UpdateActivity extends AppCompatActivity {
     // 定义视图组件的引用和联系人ID
@@ -29,19 +30,15 @@ public class UpdateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
-        // 初始化用户界面和获取传递的数据
         initUI();
-        // 设置Toolbar
         setupToolbar();
-        // 设置数据到视图
         setupData();
-        // 设置提交按钮的点击事件
         setupCommitButton();
     }
 
     // initUI方法用于初始化视图组件和获取传递的数据
     private void initUI() {
-        id = getIntent().getStringExtra("id"); // 从Intent中获取联系人ID
+        id = getIntent().getStringExtra("id");
         nameView = findViewById(R.id.update_name);
         phoneView = findViewById(R.id.update_phone);
         maleButton = findViewById(R.id.update_male);
@@ -61,12 +58,12 @@ public class UpdateActivity extends AppCompatActivity {
 
     // setupData方法用于将选中的联系人数据设置到视图
     private void setupData() {
-        PeoBean peo = PeoDao.getOnePeo(id); // 根据ID获取联系人数据
-        nameView.setText(peo.getName());
-        phoneView.setText(peo.getPhone());
-        remarkView.setText(peo.getRemark());
+        Contact contact = ContactDAO.getOneContact(id);
+        nameView.setText(contact.getName());
+        phoneView.setText(contact.getPhone());
+        remarkView.setText(contact.getRemark());
         // 根据联系人性别设置对应的单选按钮
-        if (peo.getSex().equals("男")) {
+        if (contact.getSex().equals("男")) {
             maleButton.setChecked(true);
         } else {
             femaleButton.setChecked(true);
@@ -80,6 +77,7 @@ public class UpdateActivity extends AppCompatActivity {
             String name = nameView.getText().toString().trim();
             String phone = phoneView.getText().toString().trim();
             String remark = remarkView.getText().toString().trim();
+
             // 验证输入是否为空
             if (name.isEmpty()) {
                 Toast.makeText(UpdateActivity.this, "请输入姓名", Toast.LENGTH_SHORT).show();
@@ -93,9 +91,11 @@ public class UpdateActivity extends AppCompatActivity {
                 if (femaleButton.isChecked()) {
                     sex = "女";
                 }
-                // 调用PeoDao的updatePeo方法更新联系人信息
-                PeoDao.updatePeo(id, name, phone, sex, remark);
+
+                // 调用ContactDAO的updateContact方法更新联系人信息
+                ContactDAO.updateContact(id, name, phone, sex, remark);
                 Toast.makeText(UpdateActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+                // 更新成功后跳转到MainActivity
                 Intent intent = new Intent(UpdateActivity.this, MainActivity.class);
                 startActivity(intent);
             }
