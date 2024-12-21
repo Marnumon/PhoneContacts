@@ -43,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
     // initUI方法用于初始化视图组件
     private void initUI(){
+        Toolbar toolbar = findViewById(R.id.toolbar); // 获取工具栏
+        setSupportActionBar(toolbar); // 设置工具栏
         searchEditText = findViewById(R.id.search_id); // 获取搜索框
         listView = findViewById(R.id.book_list); // 获取列表视图
         floatingActionButton = findViewById(R.id.add); // 获取浮动操作按钮
-        Toolbar toolbar = findViewById(R.id.toolbar); // 获取工具栏
-        setSupportActionBar(toolbar); // 设置工具栏
     }
 
     // setupListeners方法用于设置视图组件的监听器
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // updateListView方法用于根据搜索框的文本更新列表视图
-    public void updateListView() {
+    private void updateListView() {
         String searchText = searchEditText.getText().toString(); // 获取搜索框文本
         // 根据搜索框的文本获取搜索结果
         List<Contact> searchResult = searchText.isEmpty() ? ContactDAO.getAllContacts() : ContactDAO.getAllContacts(searchText);
@@ -85,10 +85,11 @@ public class MainActivity extends AppCompatActivity {
             listView.setAdapter(null);
             return;
         } else {
-            // 对搜索结果进行排序
             searchResult.sort((o1, o2) -> {
-                if (o1.getFirstLetter().equals("#") || o2.getFirstLetter().equals("#")) {
+                if (o1.getFirstLetter().equals("#")) {
                     return 1;
+                } else if (!o1.getFirstLetter().equals("#") && o2.getFirstLetter().equals("#")) {
+                    return -1;
                 } else {
                     return o1.getFirstLetter().compareTo(o2.getFirstLetter());
                 }

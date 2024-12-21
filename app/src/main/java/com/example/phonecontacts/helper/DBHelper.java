@@ -37,15 +37,19 @@ public class DBHelper extends SQLiteOpenHelper {
     private void insertInitialData(SQLiteDatabase db) {
         // 插入一系列联系人数据
         db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('丰川祥子', '12345678901', '女', '客服小祥')");
-        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('千早爱音', '23456789012', '女', '唐笑宗')");
-        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('椎名立希', '34567890123', '女', '灯卫兵')");
-        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('长崎素世', '45678901234', '女', '什么都会做的')");
-        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('要乐奈', '56789012345', '女', '为什么要演奏春日影')");
-        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('若叶睦', '67890123456', '女', '睦头人')");
-        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('4dX#8kP', '78901234567', '男', '2cF%5tH')");
-        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('fZ5&fWp', '89012345678', '男', '3wS+qL')");
-        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('+8mN*kP', '90123456789', '男', 'bY6&zG')");
-        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('c5G@3nB', '01234567890', '男', '1yR^9lK')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('千早爱音', '67159842370', '女', '唐笑宗')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('高松灯', '31059824673', '女', '重力展开')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('椎名立希', '83920576124', '女', '灯卫兵')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('长崎素世', '50437918265', '女', '什么都会做的')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('要乐奈', '92617408533', '女', '为什么要演奏春日影')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('若叶睦', '31890724652', '女', '睦头人')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('三角初华', '86573249021', '女', 'Dolorous')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('八幡海铃', '48623190754', '女', 'Timorous')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('祐天寺喵梦', '75291846305', '女', '坏猫猫')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('4dX#8kP', '74026893157', '男', '2cF%5tH')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('fZ5&fWp', '65241987035', '男', '3wS+qL')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('+8mN*kP', '12340589762', '男', 'bY6&zG')");
+        db.execSQL("INSERT INTO contact (name, phone, sex, remark) VALUES ('c5G@3nB', '59763410285', '男', '1yR^9lK')");
     }
 
     // onUpgrade方法在数据库需要升级时被调用，用于处理数据库表的重建

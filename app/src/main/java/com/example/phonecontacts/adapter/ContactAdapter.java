@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ContactAdapter extends ArrayAdapter<Contact> {
     // 成员变量，用于存储联系人列表数据
-    List<Contact> items;
+    private final List<Contact> items;
 
     // ContactAdapter的构造函数，接收上下文和联系人列表数据，并调用父类的构造函数
     public ContactAdapter(Context context, List<Contact> items) {
@@ -32,9 +32,9 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        // 如果convertView为null，则通过LayoutInflater创建新的视图
         if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.book_view, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.book_view, parent, false);
         }
 
         // 通过findViewById获取布局中的姓名TextView
@@ -55,18 +55,12 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
             imageView.setImageResource(R.drawable.female);
         }
 
-        // 如果是列表的第一个项，设置首字母TextView的文本为联系人的首字母
-        if (position == 0) {
+        // 如果是列表的第一个项或当前项的首字母与前一项不同，则显示首字母
+        if (position == 0 || !items.get(position - 1).getFirstLetter().equals(contact.getFirstLetter())) {
+            letter.setVisibility(View.VISIBLE);
             letter.setText(contact.getFirstLetter());
         } else {
-            // 如果当前项的首字母与前一项不同，则更新首字母TextView的文本
-            Contact temp = items.get(position - 1);
-            if (!temp.getFirstLetter().equals(contact.getFirstLetter())) {
-                letter.setText(contact.getFirstLetter());
-            } else {
-                // 如果首字母相同，则将首字母TextView的高度设置为0，使其不可见
-                letter.setHeight(0);
-            }
+            letter.setVisibility(View.GONE);
         }
 
         // 为convertView设置点击事件监听器，点击时跳转到详情页面

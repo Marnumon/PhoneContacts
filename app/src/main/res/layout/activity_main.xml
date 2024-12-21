@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
-        android:background="@drawable/search_edit_bg"
+        android:background="@drawable/search_edit_background"
         android:drawableStart="@drawable/search"
         android:hint="@string/search_contacts"
         android:padding="9dp"
