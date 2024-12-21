@@ -83,6 +83,8 @@ public class UpdateActivity extends AppCompatActivity {
                 Toast.makeText(UpdateActivity.this, "请输入姓名", Toast.LENGTH_SHORT).show();
             } else if (phone.isEmpty()) {
                 Toast.makeText(UpdateActivity.this, "请输入电话", Toast.LENGTH_SHORT).show();
+            } else if (!phone.matches("\\d+")) {
+                Toast.makeText(UpdateActivity.this, "电话必须是纯数字", Toast.LENGTH_SHORT).show();
             } else if (remark.isEmpty()) {
                 Toast.makeText(UpdateActivity.this, "请输入备注", Toast.LENGTH_SHORT).show();
             } else {
